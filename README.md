@@ -83,3 +83,9 @@ keepTracking 	[ default = true ] # if you want to keep tracking user idleness, s
 ###1.0.0
 --------
 First basic version
+=======
+callback	    	# callback function that will be triggered when the user gets idle
+events		    	[ default = mousemove keypress mousedonw ] # events that will reset the idle time
+idle		       	[ default = 60000 ] # idle time in ms
+keep_tracking 	[ default = false ] # if you want to keep tracking user idleness, set it to true
+```
