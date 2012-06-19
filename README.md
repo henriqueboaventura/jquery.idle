@@ -78,14 +78,8 @@ keepTracking 	[ default = true ] # if you want to keep tracking user idleness, s
 ###1.1.0
 --------
 * Renamed the 'callback' setting to 'onIdle'
-* Added the 'onActive' callback function to be executed when user back from idleness (thanks @joelsouza for the tip)
+* Added the 'onActive' callback function to be executed when user back from idleness (thanks [@joelsouza](https://github.com/joelsouza) for the tip)
 
 ###1.0.0
 --------
 First basic version
-=======
-callback	    	# callback function that will be triggered when the user gets idle
-events		    	[ default = mousemove keypress mousedonw ] # events that will reset the idle time
-idle		       	[ default = 60000 ] # idle time in ms
-keep_tracking 	[ default = false ] # if you want to keep tracking user idleness, set it to true
-```
