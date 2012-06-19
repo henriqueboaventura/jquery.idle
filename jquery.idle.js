@@ -20,28 +20,40 @@
     var defaults = {
       idle: 60000, //idle time in ms
       events: 'mousemove keypress mousedown', //events that will trigger the idle resetter
-      callback: function(){}, //callback function to be executed after idle time
-      keep_tracking: false //if you want to keep tracking user even after the first time, set this to true
+      onIdle: function(){}, //callback function to be executed after idle time
+      onActive: function(){}, //callback function to be executed after back from idleness
+      keepTracking: false //if you want to keep tracking user even after the first time, set this to true
     };
+
+    var idle = false;
 
     var settings = $.extend( {}, defaults, options );
 
-    var resetTimeout = function(id, idle, callback, keep_tracking){
-      clearTimeout(id);
-      if(keep_tracking){
-        return timeout(idle, callback);
+    var resetTimeout = function(id, settings){
+      if(idle){
+        settings.onActive.call();
+        idle = false;
       }
+      clearTimeout(id);
+
+      return timeout(settings);
     }
 
-    var timeout = function(idle, callback){
-      id = setTimeout(callback, idle);
+    var timeout = function(settings){
+      id = setTimeout(function(){
+        idle = true;
+        settings.onIdle.call();
+        if(settings.keepTracking){
+          timeout(settings);
+        }
+      }, settings.idle);
       return id;
     }
 
     return this.each(function(){
-      id = timeout(settings.idle, settings.callback);
+      id = timeout(settings);
       $(this).bind(settings.events, function(e){
-        id = resetTimeout(id, settings.idle, settings.callback, settings.keep_tracking);
+        id = resetTimeout(id, settings);
       });
     }); 
 
