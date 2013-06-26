@@ -34,13 +34,15 @@
         settings.onActive.call();
         idle = false;
       }
-      clearTimeout(id);
+      var clearTimer = (settings.keepTracking ? clearInterval : clearTimeout);
+      clearTimer(id);
 
       return timeout(settings);
     }
 
     var timeout = function(settings){
-      id = setTimeout(function(){
+        var timer = (settings.keepTracking ? setInterval : setTimeout);
+        var id = timer(function(){
         idle = true;
         settings.onIdle.call();
         if(settings.keepTracking){
@@ -51,8 +53,8 @@
     }
 
     return this.each(function(){
-      id = timeout(settings);
-      $(this).bind(settings.events, function(e){
+      var id = timeout(settings);
+      $(this).on(settings.events, function(e){
         id = resetTimeout(id, settings);
       });
     }); 
