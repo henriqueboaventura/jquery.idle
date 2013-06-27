@@ -45,9 +45,6 @@
         var id = timer(function(){
         idle = true;
         settings.onIdle.call();
-        if(settings.keepTracking){
-          timeout(settings);
-        }
       }, settings.idle);
       return id;
     }
