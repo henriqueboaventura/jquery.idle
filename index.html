@@ -2,7 +2,7 @@
 <head>
   <title>jQuery Idle</title>
   <style>
-    #status{
+    #status, #visibility{
       background-color: #E6EFC2;
       border-color: #C6D880;
       color: #264409;
@@ -10,7 +10,7 @@
       text-align: center;
       width:100px;
     }
-    #status.idle{
+    #status.idle, #visibility.idle{
       background-color: #FFF6BF;
       border-color: #FFD324;
       color: #514721;
@@ -21,6 +21,7 @@
   <h1>jQuery Idle</h1>
   <p>This is a simple example that will print in the box below the user status (active or idle). In this example, after 5 seconds idle, it will be displayed... "Idle!", off course :)</p>
   <div id="status">Active!</div>
+  <div id="visibility">Visible!</div>
   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script type="text/javascript" src="jquery.idle.min.js"></script>
   <script type="text/javascript">
@@ -30,6 +31,15 @@
       },
       onActive: function(){
         $('#status').toggleClass('idle').html('Active!');
+      },
+      onHide: function(){
+        $('#visibility').toggleClass('idle').html('Hidden!');
+      },
+      onShow: function(){
+        // Add a slight pause so you can see the change
+        setTimeout(function(){
+          $('#visibility').toggleClass('idle').html('Visible!');
+        }, 250);
       },
       idle: 5000
     });

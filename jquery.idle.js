@@ -22,10 +22,13 @@
       events: 'mousemove keypress mousedown', //events that will trigger the idle resetter
       onIdle: function(){}, //callback function to be executed after idle time
       onActive: function(){}, //callback function to be executed after back from idleness
+      onHide: function(){}, //callback function to be executed when window is hidden
+      onShow: function(){}, //callback function to be executed when window is visible
       keepTracking: false //if you want to keep tracking user even after the first time, set this to true
     };
 
     var idle = false;
+    var visible = true;
 
     var settings = $.extend( {}, defaults, options );
 
@@ -54,6 +57,21 @@
       $(this).on(settings.events, function(e){
         id = resetTimeout(id, settings);
       });
+      if(options.onShow || options.onHide){
+        $(document).on("visibilitychange webkitvisibilitychange mozvisibilitychange msvisibilitychange", function(){
+          if(document.hidden || document.webkitHidden || document.mozHidden || document.msHidden){
+            if(visible){
+              visible = false;
+              settings.onHide.call();
+            }
+          }else{
+            if(!visible){
+              visible = true;
+              settings.onShow.call();
+            }
+          }
+        });
+      }
     }); 
 
   }; 
