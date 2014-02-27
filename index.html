@@ -36,7 +36,10 @@
         $('#visibility').toggleClass('idle').html('Hidden!');
       },
       onShow: function(){
-        $('#visibility').toggleClass('idle').html('Visible!');
+        // Add a slight pause so you can see the change
+        setTimeout(function(){
+          $('#visibility').toggleClass('idle').html('Visible!');
+        }, 250);
       },
       idle: 5000
     });
