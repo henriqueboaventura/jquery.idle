@@ -35,7 +35,7 @@ $(document).idle({
   },
   onActive: function(){
     alert('Hey, I\'m back!');
-  }
+  },
   idle: 10000
 })
 ```
@@ -72,7 +72,7 @@ $(document).idle({
   onIdle: function(){
   	alert('It\'s been a long time since you don\'t see me');
   },
-  events: 'mouseover mouseout'
+  events: 'mouseover mouseout',
   idle: 30000
 })
 ```
