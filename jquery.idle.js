@@ -32,66 +32,63 @@
 
   $.fn.idle = function (options) {
 
-	var defaults = {
-		idle: 60000, //idle time in ms
-		events: 'mousemove keypress mousedown touchstart', //events that will trigger the idle resetter
-		onIdle: function () {}, //callback function to be executed after idle time
-		onActive: function () {}, //callback function to be executed after back from idleness
-		onHide: function () {}, //callback function to be executed when window is hidden
-		onShow: function () {}, //callback function to be executed when window is visible
-		keepTracking: false //if you want to keep tracking user even after the first time, set this to true
-	  },
-	  idle = false,
-	  visible = true,
-	  settings = $.extend({}, defaults, options),
-	  resetTimeout,
-	  timeout;
+    var defaults = {
+        idle: 60000, //idle time in ms
+        events: 'mousemove keypress mousedown touchstart', //events that will trigger the idle resetter
+        onIdle: function () {}, //callback function to be executed after idle time
+        onActive: function () {}, //callback function to be executed after back from idleness
+        onHide: function () {}, //callback function to be executed when window is hidden
+        onShow: function () {}, //callback function to be executed when window is visible
+        keepTracking: false //if you want to keep tracking user even after the first time, set this to true
+      },
+      idle = false,
+      visible = true,
+      settings = $.extend({}, defaults, options),
+      resetTimeout,
+      timeout;
 
-	resetTimeout = function (id, settings) {
-	  if (idle) {
-		settings.onActive.call();
-		idle = false;
-	  }
-	  (settings.keepTracking ? clearInterval : clearTimeout)(id);
+    resetTimeout = function (id, settings) {
+      if (idle) {
+        settings.onActive.call();
+        idle = false;
+      }
+      (settings.keepTracking ? clearInterval : clearTimeout)(id);
 
-	  return timeout(settings);
-	};
+      return timeout(settings);
+    };
 
-	timeout = function (settings) {
-	  var timer = (settings.keepTracking ? setInterval : setTimeout),
-		id;
+    timeout = function (settings) {
+      var timer = (settings.keepTracking ? setInterval : setTimeout),
+        id;
 
-	  id = timer(function () {
-		idle = true;
-		settings.onIdle.call();
-	  }, settings.idle);
-	  return id;
-	};
+      id = timer(function () {
+        idle = true;
+        settings.onIdle.call();
+      }, settings.idle);
+      return id;
+    };
 
-	return this.each(function () {
-		var id = timeout(settings);
-		$(this).on("idle.stop", function() {
-			$(this).off();
-			clearTimeout(id);
-		});
-		$(this).on(settings.events, function (e) {
-		  id = resetTimeout(id, settings);
-	  });
-	  if (options.onShow || options.onHide) {
-		  $(document).on("visibilitychange webkitvisibilitychange mozvisibilitychange msvisibilitychange", function () {
-			  if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
-				  if (visible) {
-					  visible = false;
-					  settings.onHide.call();
-				  }
-			  } else {
-				  if (!visible) {
-					  visible = true;
-					  settings.onShow.call();
-				  }
-			  }
-		  });
-	  }
-  });
+    return this.each(function () {
+      var id = timeout(settings);
+      $(this).on(settings.events, function (e) {
+        id = resetTimeout(id, settings);
+      });
+      if (options.onShow || options.onHide) {
+        $(document).on("visibilitychange webkitvisibilitychange mozvisibilitychange msvisibilitychange", function () {
+          if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
+            if (visible) {
+              visible = false;
+              settings.onHide.call();
+            }
+          } else {
+            if (!visible) {
+              visible = true;
+              settings.onShow.call();
+            }
+          }
+        });
+      }
+    });
+
   };
 }(jQuery));
