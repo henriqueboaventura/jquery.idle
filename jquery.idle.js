@@ -70,6 +70,10 @@
 
     return this.each(function () {
       var id = timeout(settings);
+	  $(this).on("idle.stop", function() {
+		$(this).off();
+		clearTimeout(id);
+	  });
       $(this).on(settings.events, function (e) {
         id = resetTimeout(id, settings);
       });
