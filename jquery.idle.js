@@ -70,11 +70,11 @@
 
     return this.each(function () {
       var id = timeout(settings);
-	  var self = this;
-	  $(self).on("idle.stop", function() {
-		$(self).off(settings.events);
-		clearTimeout(id);
-	  });
+      var self = this;
+      $(self).on("idle.stop", function() {
+        $(self).off(settings.events);
+        clearTimeout(id);
+      });
       $(this).on(settings.events, function (e) {
         id = resetTimeout(id, settings);
       });
