@@ -70,8 +70,9 @@
 
     return this.each(function () {
       var id = timeout(settings);
-	  $(this).on("idle.stop", function() {
-		$(this).off();
+	  var self = this;
+	  $(self).on("idle.stop", function() {
+		$(self).off(settings.events);
 		clearTimeout(id);
 	  });
       $(this).on(settings.events, function (e) {
@@ -93,6 +94,5 @@
         });
       }
     });
-
   };
 }(jQuery));
