@@ -100,7 +100,7 @@ keepTracking 	[ default = true ] # if you want to keep tracking user idleness, s
 
 ###1.3.0
 --------
-* Added the 'dle.stop' event to finish the idle events, stopping it ([@diegoarize](https://github.com/diegoarize))
+* Added the 'idle.stop' event to finish the idle events, stopping it ([@diegoarize](https://github.com/diegoarize))
 
 ###1.2.0
 --------
