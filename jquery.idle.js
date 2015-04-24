@@ -75,7 +75,7 @@
         $(self).off(settings.events);
 		  (settings.keepTracking ? clearInterval : clearTimeout)(id);
       });
-      $(this).on(settings.events, function (e) {
+      $(self).on(settings.events, function (e) {
         id = resetTimeout(id, settings);
       });
       if (options.onShow || options.onHide) {
