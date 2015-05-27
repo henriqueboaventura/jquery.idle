@@ -84,7 +84,7 @@ onIdle	    	# callback function that will be triggered when the user gets idle
 onActive    	[ default function(){} ] # callback function that will be triggered when the user gets active
 onHide	    	[ default function(){} ] # callback function that will be triggered when window is hidden
 onShow	    	[ default function(){} ] # callback function that will be triggered when window is visible
-events			[ default = mousemove keypress mousedonw ] # events that will reset the idle time
+events			[ default = mousemove keypress mousedown touchstart ] # events that will reset the idle time
 idle			[ default = 60000 ] # idle time in ms
 keepTracking 	[ default = true ] # if you want to keep tracking user idleness, set it to true
 ```
