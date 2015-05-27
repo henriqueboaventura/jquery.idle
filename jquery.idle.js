@@ -70,7 +70,12 @@
 
     return this.each(function () {
       var id = timeout(settings);
-      $(this).on(settings.events, function (e) {
+      var self = this;
+      $(self).on("idle.stop", function() {
+        $(self).off(settings.events);
+		  (settings.keepTracking ? clearInterval : clearTimeout)(id);
+      });
+      $(self).on(settings.events, function (e) {
         id = resetTimeout(id, settings);
       });
       if (options.onShow || options.onHide) {
@@ -89,6 +94,5 @@
         });
       }
     });
-
   };
 }(jQuery));

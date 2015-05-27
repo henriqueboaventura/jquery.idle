@@ -77,6 +77,13 @@ $(document).idle({
 })
 ```
 
+If you want to stop the idle event just trigger the "idle.stop" on the element
+
+```js
+$(document).trigger("idle.stop");
+})
+```
+
 ##Options
 
 ```
@@ -90,6 +97,10 @@ keepTracking 	[ default = true ] # if you want to keep tracking user idleness, s
 ```
 
 ##Changelog
+
+###1.3.0
+--------
+* Added the 'idle.stop' event to finish the idle events, stopping it ([@diegoarize](https://github.com/diegoarize))
 
 ###1.2.0
 --------
