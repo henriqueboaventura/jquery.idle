@@ -98,10 +98,15 @@ onHide	    	[ default function(){} ] # callback function that will be triggered 
 onShow	    	[ default function(){} ] # callback function that will be triggered when window is visible
 events			[ default = mousemove keypress mousedown touchstart ] # events that will reset the idle time
 idle			[ default = 60000 ] # idle time in ms
-keepTracking 	[ default = true ] # if you want to keep tracking user idleness, set it to true
+keepTracking  [ default = true ] # if you want to keep tracking user idleness, set it to true
+startAtIdle 	[ default = false ] # if you want to start idle, set it to true
 ```
 
 ##Changelog
+
+###1.2.1
+--------
+* Added the 'startAtIdle' option so you can choose if you want to start idle or not ([@hugohil](https://github.com/hugohil))
 
 ###1.2.0
 --------
