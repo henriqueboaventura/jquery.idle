@@ -41,8 +41,8 @@
         onShow: function () {}, //callback function to be executed when window is visible
         keepTracking: false //if you want to keep tracking user even after the first time, set this to true
       },
-      idle = false,
-      visible = true,
+      idle = options.startAtIdle || false,
+      visible = !options.startAtIdle || true,
       settings = $.extend({}, defaults, options),
       resetTimeout,
       timeout;

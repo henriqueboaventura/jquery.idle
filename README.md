@@ -65,7 +65,7 @@ $('header, footer').idle({
 })
 ```
 
-And you can choose which events will be used to "refresh" the idle timer
+You can choose which events will be used to "refresh" the idle timer
 
 ```js
 $(document).idle({
@@ -74,6 +74,18 @@ $(document).idle({
   },
   events: 'mouseover mouseout',
   idle: 30000
+})
+```
+
+And you can choose if you want to start from an idle state or not
+
+```js
+$(document).idle({
+  onIdle: function(){
+    alert('It\'s been a long time since you don\'t see me');
+  },
+  idle: 30000,
+  startAtIdle: true
 })
 ```
 
