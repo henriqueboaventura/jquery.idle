@@ -39,7 +39,7 @@
         onActive: function () {}, //callback function to be executed after back from idleness
         onHide: function () {}, //callback function to be executed when window is hidden
         onShow: function () {}, //callback function to be executed when window is visible
-        keepTracking: true //if you don't want to keep tracking user even after the first time, set this to false
+        keepTracking: true //set it to false if you wnat to track only the first time
       },
       idle = options.startAtIdle || false,
       visible = !options.startAtIdle || true,
@@ -52,15 +52,14 @@
         settings.onActive.call();
         idle = false;
       }
-      (settings.keepTracking ? clearInterval : clearTimeout)(id);
-
-      return timeout(settings);
+      clearTimeout(id);
+      if(settings.keepTracking) {
+        return timeout(settings);
+      }
     };
 
     timeout = function (settings) {
-      var timer = (settings.keepTracking ? setInterval : setTimeout),
-        id;
-
+      var timer = setTimeout,id;
       id = timer(function () {
         idle = true;
         settings.onIdle.call();

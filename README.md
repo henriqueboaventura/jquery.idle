@@ -18,7 +18,7 @@ Then, just call the function in the element that you want to track user idleness
 ```js
 $(document).idle({
   onIdle: function(){
-  	alert('Since you waited so long, the answer to the Ultimate Question of Life, the Universe, and Everything is 42');
+    alert('Since you waited so long, the answer to the Ultimate Question of Life, the Universe, and Everything is 42');
   },
   idle: 10000
 })
@@ -59,7 +59,7 @@ You can also check if a specific element is idle, actually, you can use any jQue
 ```js
 $('header, footer').idle({
   onIdle: function(){
-  	alert('It\'s been a long time since you don\'t see me');
+    alert('It\'s been a long time since you don\'t see me');
   },
   idle: 20000
 })
@@ -70,7 +70,7 @@ You can choose which events will be used to "refresh" the idle timer
 ```js
 $(document).idle({
   onIdle: function(){
-  	alert('It\'s been a long time since you don\'t see me');
+    alert('It\'s been a long time since you don\'t see me');
   },
   events: 'mouseover mouseout',
   idle: 30000
@@ -92,20 +92,22 @@ $(document).idle({
 ##Options
 
 ```
-onIdle	    	# callback function that will be triggered when the user gets idle
-onActive    	[ default function(){} ] # callback function that will be triggered when the user gets active
-onHide	    	[ default function(){} ] # callback function that will be triggered when window is hidden
-onShow	    	[ default function(){} ] # callback function that will be triggered when window is visible
-events			  [ default = mousemove keypress mousedown touchstart ] # events that will reset the idle time
-idle			    [ default = 60000 ] # idle time in ms
-keepTracking  [ default = true ] # if you want to keep tracking user idleness, set it to true
-startAtIdle 	[ default = false ] # if you want to start idle, set it to true
+onIdle        # callback function that will be triggered when the user gets idle
+onActive      [ default function(){} ] # callback function that will be triggered when the user gets active
+onHide        [ default function(){} ] # callback function that will be triggered when window is hidden
+onShow        [ default function(){} ] # callback function that will be triggered when window is visible
+events        [ default = mousemove keypress mousedown touchstart ] # events that will reset the idle time
+idle          [ default = 60000 ] # idle time in ms
+keepTracking  [ default = true ] # set it to false if you want to track only the first time
+startAtIdle   [ default = false ] # if you want to start idle, set it to true
 ```
 
 ##Changelog
+
 ###1.2.2
 --------
-* Fix the keepTracking default value. Now is set to true by default
+* The logic behind keepTracking was a total mess. Rewrote the functionality to work as it should
+* Change the default keepTracking value. Now is set to true
 
 ###1.2.1
 --------
