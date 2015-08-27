@@ -5,7 +5,7 @@
  *  About: Author
  *  Henrique Boaventura (hboaventura@gmail.com).
  *  About: Version
- *  1.2.1
+ *  1.2.2
  *  About: License
  *  Copyright (C) 2013, Henrique Boaventura (hboaventura@gmail.com).
  *  MIT License:
@@ -39,7 +39,7 @@
         onActive: function () {}, //callback function to be executed after back from idleness
         onHide: function () {}, //callback function to be executed when window is hidden
         onShow: function () {}, //callback function to be executed when window is visible
-        keepTracking: false //if you want to keep tracking user even after the first time, set this to true
+        keepTracking: true //if you don't want to keep tracking user even after the first time, set this to false
       },
       idle = options.startAtIdle || false,
       visible = !options.startAtIdle || true,

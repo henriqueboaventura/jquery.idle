@@ -1,7 +1,7 @@
 {
   "name": "jquery.idle",
   "main": "jquery.idle.js",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "homepage": "https://github.com/kidh0/jquery.idle",
   "authors": [
     "Henrique Boaventura <hboaventura@gmail.com>"
