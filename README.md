@@ -102,12 +102,21 @@ keepTracking  [ default = true ] # set it to false if you want to track only the
 startAtIdle   [ default = false ] # if you want to start idle, set it to true
 ```
 
+##Events
+```
+"idle:stop": will stop and remove user tracking
+```
+
 ##Changelog
+
+###1.2.3
+--------
+* Added 'idle:stop' event to stop and remove user tracking (thanks [D3add3d](https://github.com/D3add3d) and [zachdixon](https://github.com/zachdixon))
 
 ###1.2.2
 --------
-* The logic behind keepTracking was a total mess. Rewrote the functionality to work as it should
-* Change the default keepTracking value. Now is set to true
+* The logic behind 'keepTracking' was a total mess. Rewrote the functionality to work as it should
+* Change the default 'keepTracking' value. Now is set to true
 
 ###1.2.1
 --------

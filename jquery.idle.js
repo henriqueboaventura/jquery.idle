@@ -5,7 +5,7 @@
  *  About: Author
  *  Henrique Boaventura (hboaventura@gmail.com).
  *  About: Version
- *  1.2.2
+ *  1.2.3
  *  About: License
  *  Copyright (C) 2013, Henrique Boaventura (hboaventura@gmail.com).
  *  MIT License:
@@ -31,7 +31,6 @@
   'use strict';
 
   $.fn.idle = function (options) {
-
     var defaults = {
         idle: 60000, //idle time in ms
         events: 'mousemove keypress mousedown touchstart', //events that will trigger the idle resetter
@@ -39,13 +38,22 @@
         onActive: function () {}, //callback function to be executed after back from idleness
         onHide: function () {}, //callback function to be executed when window is hidden
         onShow: function () {}, //callback function to be executed when window is visible
-        keepTracking: true //set it to false if you wnat to track only the first time
+        keepTracking: true, //set it to false if you want to track only the first time
+        startAtIdle: false
       },
       idle = options.startAtIdle || false,
       visible = !options.startAtIdle || true,
       settings = $.extend({}, defaults, options),
+      lastId = null,
       resetTimeout,
       timeout;
+
+    //event to clear all idle events
+    $(this).on( "idle:stop", {}, function( event) {
+      $(this).off(settings.events);
+      settings.keepTracking = false;
+      resetTimeout(lastId, settings);
+    });
 
     resetTimeout = function (id, settings) {
       if (idle) {
@@ -68,11 +76,11 @@
     };
 
     return this.each(function () {
-      var id = timeout(settings);
+      lastId = timeout(settings);
       $(this).on(settings.events, function (e) {
-        id = resetTimeout(id, settings);
+        lastId = resetTimeout(lastId, settings);
       });
-      if (options.onShow || options.onHide) {
+      if (settings.onShow || settings.onHide) {
         $(document).on("visibilitychange webkitvisibilitychange mozvisibilitychange msvisibilitychange", function () {
           if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
             if (visible) {
