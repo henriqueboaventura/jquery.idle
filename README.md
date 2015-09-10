@@ -96,7 +96,7 @@ onIdle        # callback function that will be triggered when the user gets idle
 onActive      [ default function(){} ] # callback function that will be triggered when the user gets active
 onHide        [ default function(){} ] # callback function that will be triggered when window is hidden
 onShow        [ default function(){} ] # callback function that will be triggered when window is visible
-events        [ default = mousemove keypress mousedown touchstart ] # events that will reset the idle time
+events        [ default = mousemove keydown mousedown touchstart ] # events that will reset the idle time
 idle          [ default = 60000 ] # idle time in ms
 keepTracking  [ default = true ] # set it to false if you want to track only the first time
 startAtIdle   [ default = false ] # if you want to start idle, set it to true
@@ -108,6 +108,10 @@ startAtIdle   [ default = false ] # if you want to start idle, set it to true
 ```
 
 ##Changelog
+
+###1.2.4
+--------
+* Changed keypress to keydown to also detect arrow keys on a keyboard press, and not just the normal A-Z keys (thanks [carlblock](https://github.com/carlblock))
 
 ###1.2.3
 --------

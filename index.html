@@ -23,7 +23,7 @@
   <div id="status">Active!</div>
   <div id="visibility">Visible!</div>
   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type="text/javascript" src="jquery.idle.min.js"></script>
+  <script type="text/javascript" src="jquery.idle.js"></script>
   <script type="text/javascript">
     $(document).idle({
       onIdle: function(){
@@ -41,7 +41,8 @@
           $('#visibility').toggleClass('idle').html('Visible!');
         }, 250);
       },
-      idle: 5000
+      idle: 2000,
+      keepTracking: true
     });
   </script>
 </body>
