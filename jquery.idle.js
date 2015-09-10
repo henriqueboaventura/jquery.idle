@@ -33,7 +33,7 @@
   $.fn.idle = function (options) {
     var defaults = {
         idle: 60000, //idle time in ms
-        events: 'mousemove keypress mousedown touchstart', //events that will trigger the idle resetter
+        events: 'mousemove keydown mousedown touchstart', //events that will trigger the idle resetter
         onIdle: function () {}, //callback function to be executed after idle time
         onActive: function () {}, //callback function to be executed after back from idleness
         onHide: function () {}, //callback function to be executed when window is hidden
