@@ -39,7 +39,8 @@
         onHide: function () {}, //callback function to be executed when window is hidden
         onShow: function () {}, //callback function to be executed when window is visible
         keepTracking: true, //set it to false if you want to track only the first time
-        startAtIdle: false
+        startAtIdle: false,
+        recurIdleCall: false
       },
       idle = options.startAtIdle || false,
       visible = !options.startAtIdle || true,
@@ -67,7 +68,7 @@
     };
 
     timeout = function (settings) {
-      var timer = setTimeout,id;
+      var timer = (settings.recurIdleCall ? setInterval : setTimeout), id;
       id = timer(function () {
         idle = true;
         settings.onIdle.call();
