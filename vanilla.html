@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vanilla Idle</title>
+  <style>
+    #status, #visibility{
+      background-color: #E6EFC2;
+      border-color: #C6D880;
+      color: #264409;
+      padding:20px;
+      text-align: center;
+      width:100px;
+    }
+    #status.idle, #visibility.idle{
+      background-color: #FFF6BF;
+      border-color: #FFD324;
+      color: #514721;
+    }
+  </style>
+</head>
+<body>
+  <h1>Vanilla Idle</h1>
+  <div id="status">Active!</div>
+  <div id="visibility">Visible!</div>
+
+  <script type="text/javascript" src="vanilla.idle.min.js"></script>
+  <script type="text/javascript">
+    idle({
+      onIdle: function(){
+        document.querySelector('#status').classList.toggle('idle');
+        document.querySelector('#status').textContent = 'Idle!';
+      },
+      onActive: function(){
+        document.querySelector('#status').classList.toggle('idle');
+        document.querySelector('#status').textContent = 'Active!';
+      },
+      onHide: function(){
+        document.querySelector('#visibility').classList.toggle('idle');
+        document.querySelector('#visibility').textContent = 'Hidden!';
+      },
+      onShow: function(){
+        // Add a slight pause so you can see the change
+        setTimeout(function(){
+          document.querySelector('#visibility').classList.toggle('idle');
+          document.querySelector('#visibility').textContent = 'Visible!';
+        }, 250);
+      },
+      idle: 2000,
+      keepTracking: true
+    }).start();
+  </script>
+</body>
+</html>

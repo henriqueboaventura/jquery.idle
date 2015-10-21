@@ -5,7 +5,7 @@
  *  About: Author
  *  Henrique Boaventura (hboaventura@gmail.com).
  *  About: Version
- *  1.2.5
+ *  1.2.6
  *  About: License
  *  Copyright (C) 2013, Henrique Boaventura (hboaventura@gmail.com).
  *  MIT License:
