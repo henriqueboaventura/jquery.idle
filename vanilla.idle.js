@@ -57,25 +57,27 @@
       return id;
     };
 
-    return function (){
-      lastId = timeout(settings);
-      bulkAddEventListener(window, settings.events, function (event){
-        lastId = resetTimeout(lastId, settings);
-      });
-      if(settings.onShow || settings.onHide){
-        bulkAddEventListener(document, visibilityEvents, function (event){
-          if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
-            if (visible){
-              visible = false;
-              settings.onHide.call();
-            }
-          } else {
-            if (!visible){
-              visible = true;
-              settings.onShow.call();
-            }
-          }
+    return {
+      start: function (){
+        lastId = timeout(settings);
+        bulkAddEventListener(window, settings.events, function (event){
+          lastId = resetTimeout(lastId, settings);
         });
+        if(settings.onShow || settings.onHide){
+          bulkAddEventListener(document, visibilityEvents, function (event){
+            if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
+              if (visible){
+                visible = false;
+                settings.onHide.call();
+              }
+            } else {
+              if (!visible){
+                visible = true;
+                settings.onShow.call();
+              }
+            }
+          });
+        }
       }
     }
   };

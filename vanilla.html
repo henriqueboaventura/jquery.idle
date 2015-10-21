@@ -23,9 +23,9 @@
   <div id="status">Active!</div>
   <div id="visibility">Visible!</div>
 
-  <script type="text/javascript" src="vanilla.idle.js"></script>
+  <script type="text/javascript" src="vanilla.idle.min.js"></script>
   <script type="text/javascript">
-    window.idle({
+    idle({
       onIdle: function(){
         document.querySelector('#status').classList.toggle('idle');
         document.querySelector('#status').textContent = 'Idle!';
@@ -47,7 +47,7 @@
       },
       idle: 2000,
       keepTracking: true
-    })();
+    }).start();
   </script>
 </body>
 </html>

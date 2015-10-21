@@ -108,7 +108,30 @@ recurIdleCall [ default = false ] # by default use setTimeout, set it to true if
 "idle:stop": will stop and remove user tracking
 ```
 
+##Vanilla
+
+jQuery Idle also provide a non-jQuery version. Use the `vanilla.idle.js` file instead, and initialize it like this:
+
+```
+idle().start();
+```
+
+Options are the same as with the jQuery version:
+
+```
+idle({
+  onIdle: function (){
+    console.log('idle !');
+  },
+  // ...
+}).start();
+```
+
 ##Changelog
+
+###1.2.6
+--------
+* Added a non-Jquery version ([@hugohil](https://github.com/hugohil))
 
 ###1.2.5
 --------
