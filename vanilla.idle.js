@@ -58,7 +58,6 @@
     };
 
     return function (){
-      console.log('vanilla.idle.js - init.');
       lastId = timeout(settings);
       bulkAddEventListener(window, settings.events, function (event){
         lastId = resetTimeout(lastId, settings);
