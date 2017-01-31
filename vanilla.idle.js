@@ -3,7 +3,7 @@
  * @title: Vanilla Idle.
  * @description: A simple VanillaJS port of this jQuery plugin.
  * @author @hugohil
- * @version 1.2.6
+ * @version 1.2.7
  * @license https://opensource.org/licenses/MIT
  */
 
@@ -38,8 +38,8 @@
 
     var resetTimeout = function resetTimeout (id, settings){
       if(idle){
-        settings.onActive.call();
         idle = false;
+        settings.onActive.call();
       }
       clearTimeout(id);
       if(settings.keepTracking){
