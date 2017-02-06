@@ -129,6 +129,10 @@ idle({
 
 ##Changelog
 
+###1.2.7
+--------
+* Corrected the logic in resetTimeout. Setting the idle = false before calling the onActive handler prevents looping when calling idle:stop in the onActive handler. ([@ashupp](https://github.com/ashupp))
+
 ###1.2.6
 --------
 * Added a non-Jquery version ([@hugohil](https://github.com/hugohil))
