@@ -1,8 +1,8 @@
-#jQuery Idle
+# jQuery Idle
 
 A dead simple jQuery plugin that executes a callback function if the user is idle.
 
-##Usage
+## Usage
 
 Since this is a simple plugin, the usage is simple too.
 
@@ -89,7 +89,7 @@ $(document).idle({
 })
 ```
 
-##Options
+## Options
 
 ```
 onIdle        # callback function that will be triggered when the user gets idle
@@ -103,12 +103,12 @@ startAtIdle   [ default = false ] # if you want to start idle, set it to true
 recurIdleCall [ default = false ] # by default use setTimeout, set it to true if you want to use setInterval
 ```
 
-##Events
+## Events
 ```
 "idle:stop": will stop and remove user tracking
 ```
 
-##Vanilla
+## Vanilla
 
 jQuery Idle also provide a non-jQuery version. Use the `vanilla.idle.js` file instead, and initialize it like this:
 
@@ -127,46 +127,50 @@ idle({
 }).start();
 ```
 
-##Changelog
+## Changelog
 
-###1.2.7
+### 1.2.8
+--------
+* Added the jQuery dependency to the package.json ([#31](https://github.com/kidh0/jquery.idle/issues/31)) and fix the documentation format.
+
+### 1.2.7
 --------
 * Corrected the logic in resetTimeout. Setting the idle = false before calling the onActive handler prevents looping when calling idle:stop in the onActive handler. ([@ashupp](https://github.com/ashupp))
 
-###1.2.6
+### 1.2.6
 --------
 * Added a non-Jquery version ([@hugohil](https://github.com/hugohil))
 
-###1.2.5
+### 1.2.5
 --------
 * Added the recurIdleCall option to choose between setTimeout ou setInterval (thanks [kgaikwad](https://github.com/kgaikwad))
 
-###1.2.4
+### 1.2.4
 --------
 * Changed keypress to keydown to also detect arrow keys on a keyboard press, and not just the normal A-Z keys (thanks [carlblock](https://github.com/carlblock))
 
-###1.2.3
+### 1.2.3
 --------
 * Added 'idle:stop' event to stop and remove user tracking (thanks [D3add3d](https://github.com/D3add3d) and [zachdixon](https://github.com/zachdixon))
 
-###1.2.2
+### 1.2.2
 --------
 * The logic behind 'keepTracking' was a total mess. Rewrote the functionality to work as it should
 * Change the default 'keepTracking' value. Now is set to true
 
-###1.2.1
+### 1.2.1
 --------
 * Added the 'startAtIdle' option so you can choose if you want to start idle or not ([@hugohil](https://github.com/hugohil))
 
-###1.2.0
+### 1.2.0
 --------
 * Added the 'onHide' and 'onShow' callback functions to be executed when window changes visibility ([@DanH42](https://github.com/DanH42))
 
-###1.1.0
+### 1.1.0
 --------
 * Renamed the 'callback' setting to 'onIdle'
 * Added the 'onActive' callback function to be executed when user back from idleness (thanks [@joelsouza](https://github.com/joelsouza) for the tip)
 
-###1.0.0
+### 1.0.0
 --------
 First basic version
