@@ -129,6 +129,10 @@ idle({
 
 ## Changelog
 
+### 1.2.9
+
+* Fixed jquery vulnerability.
+
 ### 1.2.8
 --------
 * Added the jQuery dependency to the package.json ([#31](https://github.com/kidh0/jquery.idle/issues/31)) and fix the documentation format.
