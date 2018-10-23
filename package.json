@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/kidh0/jquery.idle.git"
   },
-  "dependencies": {
+  "peerDependencies": {
     "jquery": "^3"
   },
   "keywords": [
