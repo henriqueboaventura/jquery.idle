@@ -209,7 +209,7 @@
     };
 
     // Bind EVENTS for IDLE user
-    this.jQuery_IDLE_Detection_API.prototype.bind_idle_events = function(onBindEvent) {
+    this.jQuery_IDLE_Detection_API.prototype.bind_idle_events = function() {
         var self = this;
 
         var onStopEvent = function(event) {
