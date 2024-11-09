@@ -31,6 +31,8 @@
  */
 (function($, window) {
 
+    var _jIdleTimes = [];
+
     $.fn.idle = function(options) {
         var idleElement = $(this);
         var idleDetector = new jQuery_IDLE_Detection_API(idleElement, options);
@@ -56,8 +58,8 @@
             onHide: function() {}, // callback function to be executed when window is hidden
             onShow: function() {}, // callback function to be executed when window is visible
             keepTracking: true, // set it to false if you want to track only the first time
-            startAtIdle: false,
-            recurIdleCall: false
+            startAtIdle: false, // start the BIND at IDLE
+            recurIdleCall: false // setInterval|setTimeout
         };
 
         self.options = (typeof(options) === 'object') ? options : defaults;
@@ -68,6 +70,10 @@
         self.idleTime = self.settings.idle;
         self.idleTime = Number(self.idleTime);
         self.idleTime = !isNaN(self.idleTime) ? self.idleTime : 0;
+        self.idleTime = Number(self.idleTime);
+        self.idleTime = self.idleTime.jIdle_unique_idle_time();
+        self.idleTime = Number(self.idleTime);
+        self.idleTimeIndex = false;
         self.idSettings = {};
         self.unique = Date.now();
         self.element = $(element);
@@ -78,7 +84,6 @@
         self.idleDurationStart = false;
         self.idleEndTime = false;
         self.idleDurationTime = false;
-        self.onElementOptions = {};
         self.id = false;
         self.documentEvents = "visibilitychange webkitvisibilitychange mozvisibilitychange msvisibilitychange";
     };
@@ -124,6 +129,16 @@
         }
         if (self.idleTime > 0) {
             self.id = self._runSettingsTimerStart(function() {
+                var trackAsIdle = true;
+                trackAsIdle = (trackAsIdle && self.idleElement.length);
+                trackAsIdle = (trackAsIdle && self.keepTracking);
+                trackAsIdle = Boolean(trackAsIdle);
+                if (!trackAsIdle) {
+                    self.changeIdle(false);
+                    self.removeIdle();
+                    self.keepTracking = false;
+                    return false;
+                }
                 self.changeIdle(true);
                 if (typeof(self.idleStartTime) === 'boolean') {
                     self.startIdleClock();
@@ -204,31 +219,46 @@
         return resetTimer(id);
     };
 
+    this.jQuery_IDLE_Detection_API.prototype.stopIdle = function() {
+        var self = this;
+        self.unbind_idle_events();
+        self.keepTracking = false;
+        self.isActive();
+    };
+
     // Bind EVENTS for IDLE user
     this.jQuery_IDLE_Detection_API.prototype.bind_idle_events = function() {
         var self = this;
+        if (self.idleElement && self.idleElement.length) {
+            self.idleElement.on("idle:stop", self._triggers_onStopEvent());
+            self.idleElement.on("idle:active", self._triggers_onActiveEvent());
+            self._openIdleEvent().call();
+            return true;
+        }
+        return false;
+    };
 
-        var onStopEvent = function(event) {
-            self.unbind_idle_events();
-            self.keepTracking = false;
-            self.isActive();
+    // Start Document Bind
+    this.jQuery_IDLE_Detection_API.prototype._openIdleEvent = function() {
+        var self = this;
+        return function() {
+            _jIdleTimes.push(self.idleTime);
+            self.idleTimeIndex = _jIdleTimes.length;
+            if (self.idle) {
+                self.changeIdle(self.idle);
+            }
+            self.isIdle();
+            self.idleDocument.on(self.settings.events, self._onDocumentAction());
+            if (self.settings.onShow || self.settings.onHide) {
+                self.idleDocument.on(self.documentEvents, self._onDocumentChange());
+            }
         };
+    };
 
-        // event to clear all idle events
-        self.idleElement.on("idle:stop", self.onElementOptions, onStopEvent);
-
-        var onActiveEvent = function(event) {
-            self.idleElement.trigger("idle:stop");
-        };
-
-        // event to clear all idle events
-        self.idleElement.on("idle:active", self.onElementOptions, onActiveEvent);
-
-        let onDocumentChange = function() {
-            self.doDocumentChange();
-        };
-
-        var onDocumentAction = function(event) {
+    // On self.settings.events Action
+    this.jQuery_IDLE_Detection_API.prototype._onDocumentAction = function() {
+        var self = this;
+        return function(event) {
             if (self.keepTracking) {
                 self.isActive();
             } else {
@@ -236,19 +266,30 @@
                 self.removeIdle();
             }
         };
+    };
 
-        let openIdleEvent = function() {
-            if (self.idle) {
-                self.changeIdle(self.idle);
-            }
-            self.isIdle();
-            self.idleDocument.on(self.settings.events, onDocumentAction);
-            if (self.settings.onShow || self.settings.onHide) {
-                self.idleDocument.on(self.documentEvents, onDocumentChange);
-            };
+    // On `documentEvents` Action
+    this.jQuery_IDLE_Detection_API.prototype._onDocumentChange = function() {
+        var self = this;
+        return function() {
+            self.doDocumentChange();
         };
+    };
 
-        openIdleEvent();
+    // On "idle:active" Action
+    this.jQuery_IDLE_Detection_API.prototype._triggers_onActiveEvent = function() {
+        var self = this;
+        return function(event) {
+            self.isActive();
+        };
+    };
+
+    // On "idle:stop" Action
+    this.jQuery_IDLE_Detection_API.prototype._triggers_onStopEvent = function() {
+        var self = this;
+        return function(event) {
+            self.stopIdle();
+        };
     };
 
     // Unbind Events for IDLE USER
@@ -258,6 +299,10 @@
         self.idleElement.off("idle:active");
         self.idleElement.off("idle:stop");
         self.changeIdle(false);
+        if (typeof(self.idleTimeIndex) === 'number') {
+            delete _jIdleTimes[self.idleTimeIndex - 1];
+            self.idleTimeIndex = false;
+        }
     };
 
     // Do this event on Document Change
@@ -266,12 +311,12 @@
         if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
             if (self.visible) {
                 self.onHide();
-            };
+            }
         } else {
             if (!self.visible) {
                 self.onShow();
-            };
-        };
+            }
+        }
     };
 
     // doDocumentChange.onHide action
@@ -326,40 +371,20 @@
         return self.idleDurationTime;
     };
 
-    // Compare Objects
-    this.jQuery_IDLE_Detection_API.prototype.compareObjects = function(object) {
-        var self = this;
-        var keys = (typeof(object) === 'object') ? Object.keys(object) : [];
-
-        if (!keys.length) {
-            return false;
+    // Make the time unqiue, across the idle binds.
+    Number.prototype.jIdle_unique_idle_time = function() {
+        var proposedTime = this;
+        var propNumTime = Number(proposedTime);
+        if (!_jIdleTimes.length) {
+            return propNumTime;
         }
-        if (self.compareObject(object)) {
-            return object;
-        }
-        for (var x = 0; x < keys.length; x++) {
-            let key = keys[x];
-            let val = object[key];
-            if (self.compareObject(val)) {
-                return val;
+        for (var x = 0; x < _jIdleTimes.length; x++) {
+            let jIdleTime = Number(_jIdleTimes[x]);
+            if (jIdleTime === propNumTime) {
+                propNumTime = propNumTime + 1;
             }
         }
-        return false;
-    };
-
-    // Compare Object
-    this.jQuery_IDLE_Detection_API.prototype.compareObject = function(object) {
-        var self = this;
-
-        var compared_obj = true;
-        compared_obj = (compared_obj && (typeof(object) === 'object'));
-        compared_obj = (compared_obj && (object instanceof jQuery_IDLE_Detection_API));
-        compared_obj = (compared_obj && (object.idleNode === self.idleNode));
-        compared_obj = (compared_obj && (object.settings.onActive === self.settings.onActive));
-        compared_obj = (compared_obj && (object.settings.onIdle === self.settings.onIdle));
-        compared_obj = Boolean(compared_obj);
-
-        return compared_obj;
+        return propNumTime;
     };
 
 }(jQuery, window));
