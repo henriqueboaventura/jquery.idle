@@ -140,7 +140,8 @@ idle({
 }).start();
 ```
 
-## Fork Changelog
+## Fork Changelog (1.2.6)
+* JS apply() for both IDLE and ACTIVE, so that element is set as "this" within both functions.
 * Overhauled idle from simple jQuery function to Prototype Object.
 * Added ability to Pause the Idle Timer, then Play the Idle Timer.
 * Fixed the Idle triggering while the User is Active.
