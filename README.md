@@ -127,14 +127,25 @@ idle({
 }).start();
 ```
 
+If you want to do an AJAX request, then pause the IDLE timer.
+
+```
+$("div#myElement").idle({
+	onActive: function(instance, event) {
+		event.preventDefault(); // stop the timer
+		$.get("http://example.com?data_request=test", function() {
+			event.restoreDefault(); // re-start the timer
+		});
+	},
+});
+```
+
 ## Changelog
 
 ### 1.3.0
-
 * Replacing the jquey dependency for a peerDependency as mentioned on the issue [#31](https://github.com/kidh0/jquery.idle/issues/31)
 
 ### 1.2.9
-
 * Fixed jquery vulnerability.
 
 ### 1.2.8
