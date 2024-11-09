@@ -150,6 +150,9 @@ idle({
 * Added Duration
 * Added Timer (Duration) to track when the User went AFK, and how long they've been AFK for - This helps with AJAX requests to pull data from NOW and when the user was last active.
 
+## Current Bugs
+* I also fixed bug when you have multiple instances of IDLE on $(document) for e.g. idle tracking ecommerce data, then idle tracking changes to the page; first instance will trigger the second instance; causing unexcepted results. I believe this can be fixed by adding 1ms to each timer, when the they have same time.
+
 ## Changelog
 
 ### 1.3.0
