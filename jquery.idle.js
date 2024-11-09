@@ -31,18 +31,11 @@
  */
 (function($, window) {
 
-    var jIdleObjects = {};
-
     $.fn.idle = function(options) {
         var idleElement = $(this);
         var idleDetector = new jQuery_IDLE_Detection_API(idleElement, options);
-        var currentIdle = false;
-        if (currentIdle = idleDetector.compareObjects(jIdleObjects)) {
-            return currentIdle;
-        } else {
-            idleDetector.bind_idle_events();
-            jIdleObjects[idleDetector.unique] = idleDetector;
-        }
+        idleDetector.bind_idle_events();
+
         return idleDetector;
     };
 
@@ -57,7 +50,7 @@
 
         let defaults = {
             idle: 60000, // idle time in ms
-            events: 'mousemove keydown mousedown touchstart scroll click', //events that will trigger the idle resetter
+            events: 'mousemove keydown mousedown touchstart', //events that will trigger the idle resetter
             onIdle: function() {}, // callback function to be executed after idle time
             onActive: function() {}, // callback function to be executed after back from idleness
             onHide: function() {}, // callback function to be executed when window is hidden
@@ -82,6 +75,7 @@
         self.idleElement = $(self.element);
         self.idleNode = self.idleElement.get(0);
         self.idleStartTime = false;
+        self.idleDurationStart = false;
         self.idleEndTime = false;
         self.idleDurationTime = false;
         self.onElementOptions = {};
@@ -97,7 +91,7 @@
             // Mark this Person was ACTIVE
             self.changeIdle(false);
             // Create an EVENT to send to the ON ACTIVE setting
-            var activeEvent = self.createEventForIsActive("jquery_idle_active_user");
+            var activeEvent = self.createIdleEventObject("jquery_idle_active_user");
             // Trigger the ON ACTIVE event
             self.settings.onActive.apply(self.initNode, [self, activeEvent]);
             // If the ON ACTIVE default is being PREVENTED, stop tracking our IDLE actions
@@ -141,7 +135,7 @@
     };
 
     // Create an EVENT for the JQUERY IDLE manager
-    this.jQuery_IDLE_Detection_API.prototype.createEventForIsActive = function(event_name) {
+    this.jQuery_IDLE_Detection_API.prototype.createIdleEventObject = function(event_name) {
         var self = this;
 
         var idle_active_event = {};
@@ -153,6 +147,8 @@
         idle_active_event.idleEndTime = false;
         idle_active_event.idleDuration = self.idleDurationTime;
         idle_active_event.idleDuration = Number(idle_active_event.idleDuration);
+        idle_active_event.window = window;
+        idle_active_event.document = document;
 
         if (isNaN(idle_active_event.idleDuration) || !idle_active_event.idleDuration) {
             idle_active_event.idleDuration = self.stopIdleClock();
@@ -160,7 +156,7 @@
         }
 
         idle_active_event.idleDuration = self.idleDurationTime; // time spent going AFK
-        idle_active_event.idleStartTime = self.idleStartTime; // when user went AFK
+        idle_active_event.idleStartTime = self.idleDurationStart; // when user went AFK
         idle_active_event.idleEndTime = self.idleEndTime; // time user got back to PC
 
         idle_active_event.preventDefault = function() {
@@ -242,7 +238,9 @@
         };
 
         let openIdleEvent = function() {
-            self.changeIdle(self.idle);
+            if (self.idle) {
+                self.changeIdle(self.idle);
+            }
             self.isIdle();
             self.idleDocument.on(self.settings.events, onDocumentAction);
             if (self.settings.onShow || self.settings.onHide) {
@@ -302,6 +300,7 @@
     this.jQuery_IDLE_Detection_API.prototype.startIdleClock = function() {
         var self = this;
         self.idleStartTime = Date.now();
+        self.idleDurationStart = false;
         self.idleDurationTime = false;
         self.idleEndTime = false;
     }
@@ -314,6 +313,7 @@
 
         self.idleEndTime = endTime;
         self.idleStartTime = false;
+        self.idleDurationStart = startTime;
 
         if (startTime) {
             self.idleDurationTime = (endTime - startTime);
