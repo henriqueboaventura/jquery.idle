@@ -89,6 +89,19 @@ $(document).idle({
 })
 ```
 
+If you want to do an AJAX request, then pause the IDLE timer.
+
+```
+$("div#myElement").idle({
+	onActive: function(instance, event) {
+		event.preventDefault(); // stop the timer
+		$.get("http://example.com?data_request=test", function() {
+			event.restoreDefault(); // re-start the timer
+		});
+	},
+});
+```
+
 ## Options
 
 ```
@@ -127,18 +140,14 @@ idle({
 }).start();
 ```
 
-If you want to do an AJAX request, then pause the IDLE timer.
-
-```
-$("div#myElement").idle({
-	onActive: function(instance, event) {
-		event.preventDefault(); // stop the timer
-		$.get("http://example.com?data_request=test", function() {
-			event.restoreDefault(); // re-start the timer
-		});
-	},
-});
-```
+## Fork Changelog
+* Overhauled idle from simple jQuery function to Prototype Object.
+* Added ability to Pause the Idle Timer, then Play the Idle Timer.
+* Fixed the Idle triggering while the User is Active.
+* Added Start Time
+* Added End Time
+* Added Duration
+* Added Timer (Duration) to track when the User went AFK, and how long they've been AFK for - This helps with AJAX requests to pull data from NOW and when the user was last active.
 
 ## Changelog
 
