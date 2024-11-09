@@ -89,15 +89,16 @@ $(document).idle({
 })
 ```
 
-If you want to do an AJAX request, then pause the IDLE timer.
+If you want to do an AJAX request, or you're task conflicts with IDLE. Then pause the IDLE timer and restart it.
 
-```
+```js
 $("div#myElement").idle({
 	onActive: function(instance, event) {
 		event.preventDefault(); // stop the timer
-		$.get("http://example.com?data_request=test", function() {
+		let timeId = setTimeout(function() {
+			clearTimeout(timeId);
 			event.restoreDefault(); // re-start the timer
-		});
+		}, 10000)
 	},
 });
 ```
