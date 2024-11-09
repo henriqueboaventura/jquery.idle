@@ -98,7 +98,7 @@
             // Create an EVENT to send to the ON ACTIVE setting
             var activeEvent = self.createIdleEventObject("jquery_idle_active_user");
             // Trigger the ON ACTIVE event
-            self.settings.onActive.apply(self.initNode, [self, activeEvent]);
+            self.settings.onActive.apply(self.idleNode, [self, activeEvent]);
             // If the ON ACTIVE default is being PREVENTED, stop tracking our IDLE actions
             if (activeEvent.defaultPrevented) {
                 self.keepTracking = false;
@@ -143,7 +143,7 @@
                 if (typeof(self.idleStartTime) === 'boolean') {
                     self.startIdleClock();
                 }
-                self.settings.onIdle.apply(self.initNode, [self]);
+                self.settings.onIdle.apply(self.idleNode, [self]);
             }, self.idleTime);
         }
         return (typeof(self.id) === 'number');
