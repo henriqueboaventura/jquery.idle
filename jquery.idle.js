@@ -25,10 +25,6 @@
  *    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *    SOFTWARE.
  **/
-/**
- * Contributors
- * @author Michael Jones <classicjonesy>
- */
 (function($, window) {
 
     var _jIdleTimes = [];
@@ -219,6 +215,7 @@
         return resetTimer(id);
     };
 
+	// Callable function from "idle:stop"
     this.jQuery_IDLE_Detection_API.prototype.stopIdle = function() {
         var self = this;
         self.unbind_idle_events();
