@@ -5,7 +5,7 @@
  *  About: Author
  *  Henrique Boaventura (hboaventura@gmail.com).
  *  About: Version
- *  Tested with jQuery 2.2.4
+ *  1.2.6
  *  About: License
  *  Copyright (C) 2013, Henrique Boaventura (hboaventura@gmail.com).
  *  MIT License:
@@ -124,23 +124,30 @@
             return false;
         }
         if (self.idleTime > 0) {
-            self.id = self._runSettingsTimerStart(function() {
+            var idFunction = function() {
+
                 var trackAsIdle = true;
                 trackAsIdle = (trackAsIdle && self.idleElement.length);
                 trackAsIdle = (trackAsIdle && self.keepTracking);
                 trackAsIdle = Boolean(trackAsIdle);
+
                 if (!trackAsIdle) {
                     self.changeIdle(false);
                     self.removeIdle();
                     self.keepTracking = false;
                     return false;
                 }
+
                 self.changeIdle(true);
+
                 if (typeof(self.idleStartTime) === 'boolean') {
                     self.startIdleClock();
                 }
+
                 self.settings.onIdle.apply(self.idleNode, [self]);
-            }, self.idleTime);
+
+            };
+            self.id = self._runSettingsTimerStart(idFunction, self.idleTime);
         }
         return (typeof(self.id) === 'number');
     };
@@ -215,7 +222,6 @@
         return resetTimer(id);
     };
 
-	// Callable function from "idle:stop"
     this.jQuery_IDLE_Detection_API.prototype.stopIdle = function() {
         var self = this;
         self.unbind_idle_events();
