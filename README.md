@@ -89,6 +89,20 @@ $(document).idle({
 })
 ```
 
+If you want to do an AJAX request, or you're task conflicts with IDLE. Then pause the IDLE timer and restart it.
+
+```js
+$("div#myElement").idle({
+	onActive: function(instance, event) {
+		event.preventDefault(); // stop the timer
+		let timeId = setTimeout(function() {
+			clearTimeout(timeId);
+			event.restoreDefault(); // re-start the timer
+		}, 10000)
+	},
+});
+```
+
 ## Options
 
 ```
@@ -127,14 +141,23 @@ idle({
 }).start();
 ```
 
+## Fork Changelog (1.2.6)
+* JS apply() for both IDLE and ACTIVE, so that element is set as "this" within both functions.
+* Overhauled idle from simple jQuery function to Prototype Object.
+* Added ability to Pause the Idle Timer, then Play the Idle Timer.
+* Fixed the Idle triggering while the User is Active.
+* Added Start Time
+* Added End Time
+* Added Duration
+* Added Timer (Duration) to track when the User went AFK, and how long they've been AFK for - This helps with AJAX requests to pull data from NOW and when the user was last active.
+* Fixed when you have multiple instances of IDLE on $(document) for e.g. idle tracking ecommerce data, then idle tracking changes to the page; first instance will trigger the second instance; causing unexcepted results. Solution was adding 1ms to the timer for every time, it finds that is the same.
+
 ## Changelog
 
 ### 1.3.0
-
 * Replacing the jquey dependency for a peerDependency as mentioned on the issue [#31](https://github.com/kidh0/jquery.idle/issues/31)
 
 ### 1.2.9
-
 * Fixed jquery vulnerability.
 
 ### 1.2.8
